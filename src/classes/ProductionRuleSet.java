@@ -28,12 +28,31 @@ public class ProductionRuleSet implements Iterable<ProductionRule> {
 	}
 	
 	public void deleteRule(ProductionRule rule) {
-		int i = 0;
-		for (ProductionRule currRule : set) {
-			if (currRule.equalTo(rule))
-				this.getSet().remove(i);
-			i++;
+		
+		boolean fullclear = false;
+		while (!fullclear && this.getSet().size() != 0) {
+			int i = 0;
+			for (ProductionRule currRule : this.getSet()) {
+				if (currRule.equalTo(rule)) {
+					this.getSet().remove(i);
+					break;
+				}
+				i++;
+				if (i == this.getSet().size())
+					fullclear = true;
+			}
 		}
+	}
+	
+	public String printRules() {
+		StringBuilder str = new StringBuilder();
+		for (ProductionRule currRule : this.getSet()) {
+			str.append(currRule.getNonTerminal() + "->" + currRule.getProduction() + "  ");
+		}
+		if (str.length() > 0) {
+			str.setLength(str.length() - 2);
+		}
+		return str.toString();
 	}
 	
 	

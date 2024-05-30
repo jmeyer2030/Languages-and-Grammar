@@ -22,6 +22,7 @@ public class ContextFreeGrammar {
 		setNonTerminals(CFG.getNonTerminals());
 		setTerminals(CFG.getTerminals());
 		setStart(CFG.getStart());
+		setRuleSet(new ProductionRuleSet(CFG.getRuleSet()));
 		
 	}
 	
@@ -36,10 +37,29 @@ public class ContextFreeGrammar {
 		ContextFreeGrammar removeUnits = new ContextFreeGrammar(this);
 		
 		//iterate to find a unit production, remember the output. Iterate to find productions, inputing the previous output. 
-		for (ProductionRule rule : this.getRuleSet()) {
-			if (this.isUnitProduction(rule))
-				
+		for (ProductionRule rule1 : this.getRuleSet()) {
+			if (this.isUnitProduction(rule1)) {
+				removeUnits.getRuleSet().deleteRule(rule1);
+				//String production = rule1.getProduction();
+				//ProductionRule tempRule = new ProductionRule(rule1);
+				for (ProductionRule rule2 : this.getRuleSet()) {
+					if (Character.toString(rule2.getNonTerminal()).equals(rule1.getProduction())) {
+						removeUnits.getRuleSet().addRule(new ProductionRule(rule1.getNonTerminal(), rule2.getProduction()));
+					}
+				}
+				break;
+			}	
 		}
+		/*
+		 *  Loop(main cfg PRs)
+		 *  	if (unit)
+		 *  		Loop(mainCFGPRs)
+		 *  			if PR has nt as production of outer, del from 
+		 * 
+		 * 
+		 * 
+		 * 
+		 */
 
 		return removeUnits;
 	}
