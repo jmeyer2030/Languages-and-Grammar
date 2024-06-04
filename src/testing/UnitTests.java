@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import classes.*;
+import objects.*;
 
 class UnitTests{
 	/*
@@ -177,9 +177,22 @@ class UnitTests{
 		CFG.setTerminals(terminals);
 		
 		ContextFreeGrammar output = CFG.removeUnits();
-		Assertions.assertEquals("A -> ab", output.getRuleSet().printRules());
+		Assertions.assertEquals("B->ab  A->ab", output.getRuleSet().printRules());
 	}
 	
+	/*
+	 * A -> B
+	 * B -> C
+	 * C -> D
+	 * D -> a
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	*/
 	@Test
 	public void testRemoveUnitProductions4() {//A -> a A->ab 
 		ContextFreeGrammar CFG = new ContextFreeGrammar();
@@ -199,7 +212,37 @@ class UnitTests{
 		CFG.setTerminals(terminals);
 		
 		ContextFreeGrammar output = CFG.removeUnits();
-		Assertions.assertEquals("A -> ab", output.getRuleSet().printRules());
+		Assertions.assertEquals("D->a  C->a  A->a  B->a", output.getRuleSet().printRules());
+	}
+	
+	@Test
+	public void testRemoveUnitProductions5() {//A -> a A->ab 
+		ContextFreeGrammar CFG = new ContextFreeGrammar();
+		ProductionRule A = new ProductionRule('S', "XY");
+		ProductionRule B = new ProductionRule('X', "A");
+		ProductionRule C = new ProductionRule('A', "B");
+		ProductionRule D = new ProductionRule('A', "a");
+		ProductionRule E = new ProductionRule('B', "b");
+		ProductionRule F = new ProductionRule('Y', "T");
+		ProductionRule G = new ProductionRule('T', "Y");
+		ProductionRule H = new ProductionRule('T', "c");
+		char[] terminals = {'a', 'b'};
+		char[] nonTerminals = {'S', 'X', 'A', 'T', 'B', 'Y'};
+		ProductionRuleSet set = new ProductionRuleSet();
+		CFG.setRuleSet(set);
+		CFG.getRuleSet().addRule(A);
+		CFG.getRuleSet().addRule(B);
+		CFG.getRuleSet().addRule(C);
+		CFG.getRuleSet().addRule(D);
+		CFG.getRuleSet().addRule(E);
+		CFG.getRuleSet().addRule(F);
+		CFG.getRuleSet().addRule(G);
+		CFG.getRuleSet().addRule(H);
+		CFG.setNonTerminals(nonTerminals);
+		CFG.setTerminals(terminals);
+		
+		ContextFreeGrammar output = CFG.removeUnits();
+		Assertions.assertEquals("S->XY  A->a  B->b  T->c  X->a  A->b  Y->c  X->b", output.getRuleSet().printRules());
 	}
 	
 	

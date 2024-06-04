@@ -1,4 +1,4 @@
-package classes;
+package objects;
 
 public class ProductionRule {
 	

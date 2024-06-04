@@ -1,4 +1,4 @@
-package classes;
+package objects;
 
 public class ContextFreeGrammar {
 	//variables
@@ -32,43 +32,67 @@ public class ContextFreeGrammar {
 		return CNF;
 	}	
 	
-	//removes unit productions
 	public ContextFreeGrammar removeUnits() {
-		ContextFreeGrammar removeUnits = new ContextFreeGrammar(this);
-		
-		//iterate to find a unit production, remember the output. Iterate to find productions, inputing the previous output. 
-		for (ProductionRule rule1 : this.getRuleSet()) {
-			if (this.isUnitProduction(rule1)) {
-				removeUnits.getRuleSet().deleteRule(rule1);
-				//String production = rule1.getProduction();
-				//ProductionRule tempRule = new ProductionRule(rule1);
-				for (ProductionRule rule2 : this.getRuleSet()) {
-					if (Character.toString(rule2.getNonTerminal()).equals(rule1.getProduction())) {
-						removeUnits.getRuleSet().addRule(new ProductionRule(rule1.getNonTerminal(), rule2.getProduction()));
-					}
-				}
-				break;
-			}	
+		ContextFreeGrammar gPrime = new ContextFreeGrammar(this);
+		ProductionRuleSet removedRules = new ProductionRuleSet();
+		while (true) {
+			ProductionRule unitProduction = this.findUnit(gPrime);
+			if (unitProduction == null)
+				return gPrime;
+			String unitProductionInput = Character.toString(unitProduction.getNonTerminal());
+			String unitProductionOutput = unitProduction.getProduction();
+			removedRules.addRule(unitProduction);
+			gPrime.getRuleSet().deleteRule(unitProduction);
+			removeUnitsRebuild(gPrime, removedRules, unitProductionInput, unitProductionOutput);
+			
 		}
-		/*
-		 *  Loop(main cfg PRs)
-		 *  	if (unit)
-		 *  		Loop(mainCFGPRs)
-		 *  			if PR has nt as production of outer, del from 
-		 * 
-		 * 
-		 * 
-		 * 
-		 */
-
-		return removeUnits;
 	}
 	
+	
+	//helper for unit productions
+	public ProductionRule findUnit(ContextFreeGrammar CFG){
+		for (ProductionRule pr : CFG.getRuleSet()) {
+			if (CFG.isUnitProduction(pr))
+				return pr;
+		}
+		return null;
+	}
+	
+	public void removeUnitsRebuild(ContextFreeGrammar cfg, ProductionRuleSet removedRules, String unitProductionInput, String unitProductionOutput) {
+		int length = cfg.getRuleSet().getSet().size();
+		
+		while (length > 0) {//for each rule in the set
+			ProductionRule rule = cfg.getRuleSet().getSet().get(length - 1);
+			if (Character.toString(rule.getNonTerminal()).equals(unitProductionOutput)) {//if rule matches and it is 
+				if (!removedRules.contains(new ProductionRule(unitProductionInput.charAt(0), rule.getProduction())))
+					cfg.getRuleSet().addRule(new ProductionRule(unitProductionInput.charAt(0), rule.getProduction()));
+			}
+			length--;
+		}
+		
+	}
+	
+	
 	//removes mixed productions
+	//Create a new rule for each terminal, then switch each instance of that terminal in rules with length greater than 1 for the new nonterminal.
+	/*
+	 *  For each terminal:
+	 * 		add new rule
+	 * 		for each rule
+	 * 			if length greater than 1 and 
+	 * */
 	public ContextFreeGrammar removeMixed() {
 		ContextFreeGrammar removeMixed = new ContextFreeGrammar(this);
+		int i = 48;
+		for (char term : this.getTerminals()) {
+			removeMixed.getRuleSet().addRule(new ProductionRule((char) i, Character.toString(term)));
+			i++;
+		}
+		//for (ProductionRule rule : )
 		return removeMixed;
 	}
+	
+	
 	
 	//removes long productions
 	public ContextFreeGrammar removeLong() {

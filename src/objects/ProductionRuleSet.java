@@ -1,4 +1,4 @@
-package classes;
+package objects;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -24,7 +24,7 @@ public class ProductionRuleSet implements Iterable<ProductionRule> {
 			if (currRule.equalTo(rule))
 				return;
 		}
-		getSet().add(rule);
+		getSet().add(new ProductionRule(rule));
 	}
 	
 	public void deleteRule(ProductionRule rule) {
@@ -55,6 +55,14 @@ public class ProductionRuleSet implements Iterable<ProductionRule> {
 		return str.toString();
 	}
 	
+	public boolean contains(ProductionRule pr) {
+		for (ProductionRule rule : this.getSet()) {
+			if (pr.getNonTerminal() == rule.getNonTerminal() && pr.getProduction().equals(rule.getProduction()))
+				return true;
+		}
+		return false;
+		
+	}
 	
 	//getter and setter methods
 	public LinkedList<ProductionRule> getSet() {

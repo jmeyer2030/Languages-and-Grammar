@@ -1,5 +1,0 @@
-To Do:
-Revamp unittests so that they are self contained, such that the order of their execution doesn't matter.
-Check if current iteration of remove units works
-	Create printRules method of RuleSet
-	Create Unit Tests

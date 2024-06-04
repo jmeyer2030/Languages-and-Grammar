@@ -1,0 +1,36 @@
+Notations:
+Terminals are to be capital letters
+
+Non Terminals are to be lower case letters
+
+There must be less than 10 terminals, for the time being
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To Do:
+Remove Mixed
+
+Make Symbol class such that remove mixed results can be better represented
+	
+	
+	
+	
+Late Stage:
+	Create GUI
+	Create Characters that show subscripts for removeMixed
