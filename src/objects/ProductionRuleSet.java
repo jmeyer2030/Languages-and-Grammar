@@ -1,4 +1,5 @@
 package objects;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -42,6 +43,10 @@ public class ProductionRuleSet implements Iterable<ProductionRule> {
 					fullclear = true;
 			}
 		}
+	}
+	
+	public void sort() {
+		Collections.sort(this.getSet());
 	}
 	
 	public String printRules() {

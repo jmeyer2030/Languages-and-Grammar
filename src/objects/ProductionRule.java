@@ -1,6 +1,6 @@
 package objects;
 
-public class ProductionRule {
+public class ProductionRule implements Comparable<ProductionRule>{
 	
 	//variables
 	char nonTerminal;
@@ -51,5 +51,11 @@ public class ProductionRule {
 	
 	public void setProduction(String production) {
 		this.production = production;
+	}
+
+	@Override
+	public int compareTo(ProductionRule rule) {
+		// TODO Auto-generated method stub
+		return Character.compare(this.getNonTerminal(), rule.getNonTerminal());
 	}
 }

@@ -1,9 +1,8 @@
 Notations:
 Terminals are to be capital letters
 
-Non Terminals are to be lower case letters
-
-There must be less than 10 terminals, for the time being
+Non Terminals are to be lower case letters and to be given as the first 13 letters of the alphabet.
+The back half of the alphabet are reserved for added non terminals by the algorithm
 
 
 
@@ -25,8 +24,6 @@ There must be less than 10 terminals, for the time being
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 To Do:
 Remove Mixed
-
-Make Symbol class such that remove mixed results can be better represented
 	
 	
 	

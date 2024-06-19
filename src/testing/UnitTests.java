@@ -244,10 +244,161 @@ class UnitTests{
 		ContextFreeGrammar output = CFG.removeUnits();
 		Assertions.assertEquals("S->XY  A->a  B->b  T->c  X->a  A->b  Y->c  X->b", output.getRuleSet().printRules());
 	}
+	@Test
+	public void removeMixed1() {
+		ContextFreeGrammar CFG = new ContextFreeGrammar();
+		ProductionRule A = new ProductionRule('A', "Bb");
+		ProductionRule B = new ProductionRule('B', "a");
+		char[] terminals = {'a', 'b'};
+		char[] nonTerminals = {'A', 'B'};
+		ProductionRuleSet set = new ProductionRuleSet();
+		CFG.setRuleSet(set);
+		CFG.getRuleSet().addRule(A);
+		CFG.getRuleSet().addRule(B);
+		CFG.setNonTerminals(nonTerminals);
+		CFG.setTerminals(terminals);
+		ContextFreeGrammar output = CFG.removeMixed();
+		Assertions.assertEquals("B->a  0->a  1->b  A->B1", output.getRuleSet().printRules());
+		
+	}
 	
+	@Test
+	public void removeMixed2() {
+		ContextFreeGrammar CFG = new ContextFreeGrammar();
+		ProductionRule A = new ProductionRule('A', "Bb");
+		ProductionRule B = new ProductionRule('B', "a");
+		ProductionRule C = new ProductionRule('A', "abc");
+		char[] terminals = {'a', 'b', 'c'};
+		char[] nonTerminals = {'A', 'B'};
+		ProductionRuleSet set = new ProductionRuleSet();
+		CFG.setRuleSet(set);
+		CFG.getRuleSet().addRule(A);
+		CFG.getRuleSet().addRule(B);
+		CFG.getRuleSet().addRule(C);
+		CFG.setNonTerminals(nonTerminals);
+		CFG.setTerminals(terminals);
+		ContextFreeGrammar output = CFG.removeMixed();
+		Assertions.assertEquals("B->a  0->a  1->b  2->c  A->B1  A->012", output.getRuleSet().printRules());
+	}
 	
+	@Test
+	public void removeLong1() {
+		ContextFreeGrammar CFG = new ContextFreeGrammar();
+		ProductionRule A = new ProductionRule('A', "BCD");
+		char[] terminals = {'a', 'b', 'c'};
+		char[] nonTerminals = {'A', 'B', 'C', 'D'};
+		ProductionRuleSet set = new ProductionRuleSet();
+		CFG.setRuleSet(set);
+		CFG.getRuleSet().addRule(A);
+		CFG.setNonTerminals(nonTerminals);
+		CFG.setTerminals(terminals);
+		ContextFreeGrammar output = CFG.removeLong();
+		Assertions.assertEquals("A->BN  N->CD", output.getRuleSet().printRules());
+	}
 	
+	@Test
+	public void removeLong2() {
+		ContextFreeGrammar CFG = new ContextFreeGrammar();
+		ProductionRule A = new ProductionRule('A', "BCDE");
+		char[] terminals = {'a', 'b', 'c'};
+		char[] nonTerminals = {'A', 'B', 'C', 'D', 'E'};
+		ProductionRuleSet set = new ProductionRuleSet();
+		CFG.setRuleSet(set);
+		CFG.getRuleSet().addRule(A);
+		CFG.setNonTerminals(nonTerminals);
+		CFG.setTerminals(terminals);
+		ContextFreeGrammar output = CFG.removeLong();
+		Assertions.assertEquals("A->BN  N->CO  O->DE", output.getRuleSet().printRules());
+	}
 	
+	@Test
+	public void removeLong3() {
+		ContextFreeGrammar CFG = new ContextFreeGrammar();
+		ProductionRule A = new ProductionRule('A', "BCDEFG");
+		char[] terminals = {'a', 'b', 'c'};
+		char[] nonTerminals = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
+		ProductionRuleSet set = new ProductionRuleSet();
+		CFG.setRuleSet(set);
+		CFG.getRuleSet().addRule(A);
+		CFG.setNonTerminals(nonTerminals);
+		CFG.setTerminals(terminals);
+		ContextFreeGrammar output = CFG.removeLong();
+		Assertions.assertEquals("A->BN  N->CO  O->DP  P->EQ  Q->FG", output.getRuleSet().printRules());
+	}
+	
+	@Test
+	public void removeLong4() {
+		ContextFreeGrammar CFG = new ContextFreeGrammar();
+		ProductionRule A = new ProductionRule('A', "BCDEFG");
+		ProductionRule B = new ProductionRule('B', "BCD");
+		char[] terminals = {'a', 'b', 'c'};
+		char[] nonTerminals = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
+		ProductionRuleSet set = new ProductionRuleSet();
+		CFG.setRuleSet(set);
+		CFG.getRuleSet().addRule(A);
+		CFG.getRuleSet().addRule(B);
+		CFG.setNonTerminals(nonTerminals);
+		CFG.setTerminals(terminals);
+		ContextFreeGrammar output = CFG.removeLong();
+		Assertions.assertEquals("A->BN  N->CO  O->DP  P->EQ  Q->FG  B->BR  R->CD", output.getRuleSet().printRules());
+	}
+	
+	@Test
+	public void convertToCNF1() {
+		ContextFreeGrammar CFG = new ContextFreeGrammar();
+		ProductionRule A = new ProductionRule('D', "aACa");
+		ProductionRule B = new ProductionRule('D', "aAa");
+		ProductionRule C = new ProductionRule('D', "aCa");
+		ProductionRule D = new ProductionRule('D', "aa");
+		ProductionRule E = new ProductionRule('A', "B");
+		ProductionRule F = new ProductionRule('A', "a");
+		ProductionRule G = new ProductionRule('B', "C");
+		ProductionRule H = new ProductionRule('B', "c");
+		ProductionRule I = new ProductionRule('C', "cC");
+		ProductionRule J = new ProductionRule('C', "c");
+		char[] terminals = {'a', 'b', 'c'};
+		char[] nonTerminals = {'A', 'B', 'C', 'D'};
+		ProductionRuleSet set = new ProductionRuleSet();
+		CFG.setRuleSet(set);
+		CFG.getRuleSet().addRule(A);
+		CFG.getRuleSet().addRule(B);
+		CFG.getRuleSet().addRule(C);
+		CFG.getRuleSet().addRule(D);
+		CFG.getRuleSet().addRule(E);
+		CFG.getRuleSet().addRule(F);
+		CFG.getRuleSet().addRule(G);
+		CFG.getRuleSet().addRule(H);
+		CFG.getRuleSet().addRule(I);
+		CFG.getRuleSet().addRule(J);
+		CFG.setNonTerminals(nonTerminals);
+		CFG.setTerminals(terminals);
+		ContextFreeGrammar output = CFG.convertToCNF();
+		output.getRuleSet().sort();
+		Assertions.assertEquals("0->a  1->b  2->c  A->a  A->c  A->2C  B->c  B->2C  C->c  C->2C  D->00  D->0N  D->0P  D->0Q  N->AO  O->C0  P->A0  Q->C0", output.getRuleSet().printRules());
+	}
+	
+	@Test
+	public void sortPrint() {
+		ContextFreeGrammar CFG = new ContextFreeGrammar();
+		ProductionRule A = new ProductionRule('A', "a");
+		ProductionRule B = new ProductionRule('C', "a");
+		ProductionRule C = new ProductionRule('B', "a");
+		ProductionRule D = new ProductionRule('E', "a");
+		ProductionRule E = new ProductionRule('D', "a");
+		char[] terminals = {'a', 'b', 'c'};
+		char[] nonTerminals = {'A', 'B', 'C', 'D', 'E'};
+		ProductionRuleSet set = new ProductionRuleSet();
+		CFG.setRuleSet(set);
+		CFG.getRuleSet().addRule(A);
+		CFG.getRuleSet().addRule(B);
+		CFG.getRuleSet().addRule(C);
+		CFG.getRuleSet().addRule(D);
+		CFG.getRuleSet().addRule(E);
+		CFG.setNonTerminals(nonTerminals);
+		CFG.setTerminals(terminals);
+		CFG.getRuleSet().sort();
+		Assertions.assertEquals("A->a  B->a  C->a  D->a  E->a", CFG.getRuleSet().printRules());
+	}
 	
 	
 	
