@@ -28,8 +28,7 @@ public class ProductionRuleSet implements Iterable<ProductionRule> {
 		getSet().add(new ProductionRule(rule));
 	}
 	
-	public void deleteRule(ProductionRule rule) {
-		
+	public void deleteRule(ProductionRule rule) {// can't iterate only over rules bc removing one copy breaks the loop
 		boolean fullclear = false;
 		while (!fullclear && this.getSet().size() != 0) {
 			int i = 0;
@@ -52,7 +51,7 @@ public class ProductionRuleSet implements Iterable<ProductionRule> {
 	public String printRules() {
 		StringBuilder str = new StringBuilder();
 		for (ProductionRule currRule : this.getSet()) {
-			str.append(currRule.getNonTerminal() + "->" + currRule.getProduction() + "  ");
+			str.append(currRule.getNonTerminal() + "->" + currRule.productionToString() + "  ");
 		}
 		if (str.length() > 0) {
 			str.setLength(str.length() - 2);
@@ -62,7 +61,7 @@ public class ProductionRuleSet implements Iterable<ProductionRule> {
 	
 	public boolean contains(ProductionRule pr) {
 		for (ProductionRule rule : this.getSet()) {
-			if (pr.getNonTerminal() == rule.getNonTerminal() && pr.getProduction().equals(rule.getProduction()))
+			if (pr.equalTo(rule))
 				return true;
 		}
 		return false;
