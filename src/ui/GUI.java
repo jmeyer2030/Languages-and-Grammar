@@ -1,7 +1,6 @@
 package ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,25 +17,57 @@ public class GUI implements ActionListener {
 	JTextPane output;
 	String[] options = {"removeEps", "removeUnits", "removeMixed", "removeLong", "CNF"};;
 	JComboBox<String> comboBox;
-	//String inputDefault = "Input nonterminals, terminals and production rules as the example shows: \nABCDE\nabcde\nA->BC\nB->CD\nC->DE";
+
 	String inputDefault = "ABCDE\nabcde\nA->BC\nB->CD\nC->DE";
 	public static void main(String args[]) {
 		GUI gui = new GUI();
-		//gui.setUpButtonListeners();
 		ContextFreeGrammar testCFG = gui.testGrammarCreator();
 		gui.dispGrammar(testCFG);
 	}
 	//"<html> &#949 <html>" EPSILON
+	//testbegin
 	public GUI() {
 		frame = new JFrame();
-		panel = new JPanel(new GridLayout(2,2,10,10));
+		//panel = new JPanel(new GridLayout(2,2,10,10));
+		panel = new JPanel();
+		GroupLayout layout = new GroupLayout(panel);
+		panel.setLayout(layout);
+		layout.setAutoCreateGaps(true);
+		layout.setAutoCreateContainerGaps(true);
+
 		button = new JButton("Generate");
 		//button.setBounds(100,100,250,100);
 		comboBox = new JComboBox<String>(options);
+		comboBox.setMaximumSize( comboBox.getPreferredSize() );
 		input = new JTextArea(5,5);
 		output = new JTextPane();
 		output.setContentType("text/html");
 		
+		//
+		layout.setHorizontalGroup(
+	            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                .addGroup(layout.createSequentialGroup()
+	                    .addComponent(comboBox)
+	                    .addComponent(button))
+	                .addGroup(layout.createSequentialGroup()
+	                    .addComponent(input)
+	                    .addComponent(output))
+	        );
+
+	        // Vertical group
+	        layout.setVerticalGroup(
+	            layout.createSequentialGroup()
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                    .addComponent(comboBox)
+	                    .addComponent(button))
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                    .addComponent(input)
+	                    .addComponent(output))
+	        );
+		
+		
+		
+		//
 		
 		output.setEditable(false);
 		output.setBorder(new LineBorder(Color.BLACK));
@@ -52,14 +83,12 @@ public class GUI implements ActionListener {
 		frame.setTitle("CFG");
 
 		panel.setBorder(BorderFactory.createEmptyBorder(30,30,10,30));
-		panel.setLayout(new GridLayout(2,3));
+		//panel.setLayout(new GridLayout(2,3));
 		
-	
-		
-		panel.add(comboBox);
-		panel.add(button);
-		panel.add(input);
-		panel.add(output);
+		//panel.add(comboBox);
+		//panel.add(button);
+		//panel.add(input);
+		//panel.add(output);
 		frame.pack();
 		frame.setVisible(true);
 	}
@@ -92,20 +121,7 @@ public class GUI implements ActionListener {
 		ContextFreeGrammar output = CFG.removeLong();
 		return output;
 	}
-	/*
-	public void setUpButtonListeners() {
-		ActionListener buttonListener = new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		};
-		button.addActionListener(buttonListener);
-	}
-	*/
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
