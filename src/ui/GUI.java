@@ -25,7 +25,7 @@ public class GUI implements ActionListener {
 		gui.dispGrammar(testCFG);
 	}
 	//"<html> &#949 <html>" EPSILON
-	//testbegin
+
 	public GUI() {
 		frame = new JFrame();
 		//panel = new JPanel(new GridLayout(2,2,10,10));
@@ -36,38 +36,35 @@ public class GUI implements ActionListener {
 		layout.setAutoCreateContainerGaps(true);
 
 		button = new JButton("Generate");
-		//button.setBounds(100,100,250,100);
 		comboBox = new JComboBox<String>(options);
 		comboBox.setMaximumSize( comboBox.getPreferredSize() );
 		input = new JTextArea(5,5);
 		output = new JTextPane();
 		output.setContentType("text/html");
 		
-		//
+
 		layout.setHorizontalGroup(
-	            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	                .addGroup(layout.createSequentialGroup()
-	                    .addComponent(comboBox)
+	    	layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	    		.addGroup(layout.createSequentialGroup()
+	    				.addComponent(comboBox)
 	                    .addComponent(button))
-	                .addGroup(layout.createSequentialGroup()
+	    		.addGroup(layout.createSequentialGroup()
 	                    .addComponent(input)
 	                    .addComponent(output))
-	        );
+	    );
 
 	        // Vertical group
-	        layout.setVerticalGroup(
-	            layout.createSequentialGroup()
-	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                    .addComponent(comboBox)
+	    layout.setVerticalGroup(
+	    	layout.createSequentialGroup()
+	    		.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	    				.addComponent(comboBox)
 	                    .addComponent(button))
-	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	    		.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 	                    .addComponent(input)
 	                    .addComponent(output))
-	        );
+	    );
 		
-		
-		
-		//
+	
 		
 		output.setEditable(false);
 		output.setBorder(new LineBorder(Color.BLACK));
@@ -83,12 +80,7 @@ public class GUI implements ActionListener {
 		frame.setTitle("CFG");
 
 		panel.setBorder(BorderFactory.createEmptyBorder(30,30,10,30));
-		//panel.setLayout(new GridLayout(2,3));
-		
-		//panel.add(comboBox);
-		//panel.add(button);
-		//panel.add(input);
-		//panel.add(output);
+
 		frame.pack();
 		frame.setVisible(true);
 	}
@@ -127,9 +119,6 @@ public class GUI implements ActionListener {
 		
 		if (e.getSource() == button) {
 			ContextFreeGrammar generated = CFGFromText();
-			//System.out.println(generated.getRuleSet().printRules() + "asdf");
-			//System.out.println(new String(generated.getTerminals()));
-			System.out.println(input.getText());
 			ContextFreeGrammar processed = generated;
 			String selected = comboBox.getSelectedItem().toString();
 			if (selected.equals("removeEps")) {
