@@ -1,6 +1,7 @@
 package objects;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class ContextFreeGrammar {
@@ -190,6 +191,14 @@ public class ContextFreeGrammar {
 		return removeLong;		
 	}
 	
+	public boolean CKY(String w) {
+		int rows = w.length();
+		int cols = w.length();
+		HashSet<String>[][] table = new HashSet<String>[rows][cols];
+		
+		return false;
+	}
+	
 	//helper methods
 	public boolean isUnitProduction(ProductionRule pr) {
 		if (pr.getProduction().length > 1)
@@ -200,6 +209,30 @@ public class ContextFreeGrammar {
 		}
 		return false;
 	}
+	
+	/*Cocke-Kasami-Younger Algorithm (CYK)
+	 * 
+	 * One Column per input symbol and one row per substring length
+	 * 
+	 * Each entry in the table will contain the set of non terminals that can generate the corresponding substring.
+	 *     Thus we need a string set[][].
+	 * 
+	 *     
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * */
 	
 	//getter and setter methods
 	public ArrayList<String> getNonTerminals() {
@@ -249,3 +282,5 @@ public class ContextFreeGrammar {
 		this.ruleSet = ruleSet;
 	}
 }
+
+
